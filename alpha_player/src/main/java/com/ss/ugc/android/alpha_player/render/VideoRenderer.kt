@@ -186,6 +186,8 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
         //mask
         GLES20.glUniform1f(switchHandle, 1.0f)
+
+
         triangleVertices?.position(TRIANGLE_VERTICES_DATA_POS_OFFSET)
         GLES20.glVertexAttribPointer(
             aPositionHandle, 3, GLES20.GL_FLOAT, false,

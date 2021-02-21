@@ -21,7 +21,7 @@ void main() {
     color2Map = texture2D(sTexture, vec2((vTextureCoord.x/2.0 - 0.25)*0.25 + 0.25 + 0.5,
     (vTextureCoord.y - 0.5)*0.15 + 0.5));
 
-    if (color2Map.g < 10.0 / 255.0) {
+    if (color2Map.g < 10.0 / 255.0) {//视频纹理区域,mask透明度为0
         colorout2.a = 0.0;
     }
     gl_FragColor = switchColor * colorout1 + (1.0 - switchColor) * colorout2;
