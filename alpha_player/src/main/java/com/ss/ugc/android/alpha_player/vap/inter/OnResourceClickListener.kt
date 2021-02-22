@@ -13,42 +13,12 @@
  * either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ss.ugc.android.alpha_player.vap.util
+package com.ss.ugc.android.alpha_player.vap.inter
 
-object ALog {
+import com.ss.ugc.android.alpha_player.vap.Resource
 
-    var isDebug = true
+interface OnResourceClickListener {
 
-    var log: IALog? = null
-
-    fun i(tag: String, msg: String) {
-        log?.i(tag, msg)
-    }
-
-    fun d(tag: String, msg: String) {
-        if (isDebug) {
-            log?.d(tag, msg)
-        }
-    }
-
-    fun e(tag: String, msg: String) {
-        log?.e(tag, msg)
-    }
-
-    fun e(tag: String, msg: String, tr: Throwable) {
-        log?.e(tag, msg, tr)
-    }
+    // 返回被点击的资源
+    fun onClick(resource: Resource)
 }
-
-
-interface IALog {
-    fun i(tag: String, msg: String) {}
-
-    fun d(tag: String, msg: String) {}
-
-    fun e(tag: String, msg: String) {}
-
-    fun e(tag: String, msg: String, tr: Throwable) {}
-}
-
-

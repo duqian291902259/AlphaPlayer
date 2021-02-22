@@ -78,6 +78,7 @@ class FrameAll(json: JSONObject) {
             val frameSetJson = frameJsonArray?.getJSONObject(i) ?: continue
             val frameSet = FrameSet(frameSetJson)
             map.put(frameSet.index, frameSet)
+            //map.put(i, frameSet)
         }
     }
 }

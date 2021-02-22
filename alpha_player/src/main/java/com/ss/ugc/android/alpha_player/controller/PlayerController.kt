@@ -27,6 +27,8 @@ import com.ss.ugc.android.alpha_player.player.PlayerState
 import com.ss.ugc.android.alpha_player.render.VideoRenderer
 import com.ss.ugc.android.alpha_player.vap.AnimConfig
 import com.ss.ugc.android.alpha_player.vap.FileContainer
+import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
+import com.ss.ugc.android.alpha_player.vap.inter.OnResourceClickListener
 import com.ss.ugc.android.alpha_player.vap.util.ALog
 import com.ss.ugc.android.alpha_player.widget.AlphaVideoGLSurfaceView
 import com.ss.ugc.android.alpha_player.widget.AlphaVideoGLTextureView
@@ -44,8 +46,6 @@ class PlayerController(
     val alphaVideoViewType: AlphaVideoViewType,
     mediaPlayer: IMediaPlayer
 ) : IPlayerControllerExt, LifecycleObserver, Handler.Callback {
-
-    //data class HandlerHolder(var thread: HandlerThread?, var handler: Handler?)
 
     companion object {
         private const val TAG = "PlayerController"
@@ -67,52 +67,16 @@ class PlayerController(
                 mediaPlayer ?: DefaultSystemPlayer()
             )
         }
-
-        /*fun createThread(handlerHolder: HandlerHolder, name: String): Boolean {
-            try {
-                if (handlerHolder.thread == null || handlerHolder.thread?.isAlive == false) {
-                    handlerHolder.thread = HandlerThread(name).apply {
-                        start()
-                        handlerHolder.handler = Handler(looper)
-                    }
-                }
-                return true
-            } catch (e: OutOfMemoryError) {
-                ALog.e(TAG, "createThread OOM", e)
-            }
-            return false
-        }
-
-        fun quitSafely(thread: HandlerThread?): HandlerThread? {
-            thread?.apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    thread.quitSafely()
-                } else {
-                    thread.quit()
-                }
-            }
-            return null
-        }*/
     }
-
-    /* private val renderThread = HandlerHolder(null, null)
-
-     fun prepareThread(): Boolean {
-         return createThread(renderThread, "anim_render_thread")
-     }
-
-     private fun destroyThread() {
-         ALog.i(TAG, "destroyThread")
-         renderThread.handler?.removeCallbacksAndMessages(null)
-         renderThread.thread = quitSafely(renderThread.thread)
-         renderThread.handler = null
-     }*/
 
     private var suspendDataSource: DataSource? = null
     var isPlaying: Boolean = false
     var playerState = PlayerState.NOT_PREPARED
     var mMonitor: IMonitor? = null
-    var mPlayerAction: IPlayerAction? = null
+    private var mPlayerAction: IPlayerAction? = null
+    private var mFetchResource: IFetchResource? = null
+    private var mVideoRender: VideoRenderer? = null
+
     var mediaPlayer: IMediaPlayer
     lateinit var alphaVideoView: IAlphaVideoView
 
@@ -159,7 +123,9 @@ class PlayerController(
             )
             it.setLayoutParams(layoutParams)
             it.setPlayerController(this)
-            it.setVideoRenderer(VideoRenderer(it))
+            val renderer = VideoRenderer(it)
+            this.mVideoRender = renderer
+            it.setVideoRenderer(renderer)
         }
     }
 
@@ -169,6 +135,11 @@ class PlayerController(
 
     override fun setPlayerAction(playerAction: IPlayerAction) {
         this.mPlayerAction = playerAction
+    }
+
+    override fun setFetchResource(fetchResource: IFetchResource?) {
+        this.mFetchResource = fetchResource
+        mVideoRender?.mPluginManager?.getMixAnimPlugin()?.resourceRequest = fetchResource
     }
 
     override fun setMonitor(monitor: IMonitor) {
@@ -333,6 +304,7 @@ class PlayerController(
         val parse = config.parse(jsonObj)
         ALog.d("dq-av", "config parsed $parse")
 
+        config.jsonConfig = jsonObj
         scaleType?.let {
             alphaVideoView.setScaleType(it)
         }

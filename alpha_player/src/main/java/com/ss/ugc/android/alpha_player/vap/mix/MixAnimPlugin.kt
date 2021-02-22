@@ -1,55 +1,40 @@
 package com.ss.ugc.android.alpha_player.vap.mix
-/*
+
 import com.ss.ugc.android.alpha_player.vap.Constant
 import com.ss.ugc.android.alpha_player.vap.Resource
 import com.ss.ugc.android.alpha_player.vap.util.ALog
 import com.ss.ugc.android.alpha_player.vap.util.BitmapUtil
-
-* Tencent is pleased to support the open source community by making vap available.
- *
- * Copyright (C) 2020 THL A29 Limited, a Tencent company.  All rights reserved.
- *
- * Licensed under the MIT License (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- *
- * http://opensource.org/licenses/MIT
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
-
-
-package com.ss.ugc.android.alpha_player.vap
-
 import android.graphics.Bitmap
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
-import android.view.MotionEvent
-import com.ss.ugc.android.alpha_player.vap.mix.FrameAll
-import com.ss.ugc.android.alpha_player.vap.mix.MixRender
 import com.ss.ugc.android.alpha_player.vap.AnimConfig
+import com.ss.ugc.android.alpha_player.vap.TextureLoadUtil
+import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
+import com.ss.ugc.android.alpha_player.vap.plugin.IAnimPlugin
+import com.ss.ugc.android.alpha_player.vap.inter.OnResourceClickListener
 
-class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
+class MixAnimPlugin : IAnimPlugin {//(val player: AnimPlayer)
 
     companion object {
         private const val TAG = "${Constant.TAG}.MixAnimPlugin"
     }
+
     var resourceRequest: IFetchResource? = null
-    var resourceClickListener: OnResourceClickListener? = null
+
+    //var resourceClickListener: OnResourceClickListener? = null
     var srcMap: SrcMap? = null
     var frameAll: FrameAll? = null
     var curFrameIndex = -1 // 当前帧
     private var resultCbCount = 0 // 回调次数
     private var mixRender: MixRender? = null
-    private val mixTouch by lazy { MixTouch(this) }
+
+    // private val mixTouch by lazy { MixTouch(this) }
     var autoTxtColorFill = true // 是否启动自动文字填充 默认开启
 
     // 同步锁
     private val lock = Object()
     private var forceStopLock = false
 
+    private var mAnimConfig: AnimConfig? = null
 
     override fun onConfigCreate(config: AnimConfig): Int {
         if (!config.isMix) return Constant.OK
@@ -57,6 +42,8 @@ class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
             ALog.i(TAG, "IFetchResource is empty")
             return Constant.REPORT_ERROR_TYPE_CONFIG_PLUGIN_MIX
         }
+        this.mAnimConfig = config
+
         // step 1 parse src
         parseSrc(config)
 
@@ -81,26 +68,33 @@ class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
             } else if (it.bitmap?.config == Bitmap.Config.ALPHA_8) {
                 ALog.e(TAG, "src $it bitmap must not be ALPHA_8")
                 return Constant.REPORT_ERROR_TYPE_CONFIG_PLUGIN_MIX
-            }
+            } /*else {
+                it.srcTextureId = TextureLoadUtil.loadTexture(it.bitmap)
+            }*/
         }
         return Constant.OK
     }
 
-    override fun onRenderCreate() {
-        if (player.configManager.config?.isMix == false) return
+    override fun onRenderCreate(textureID: Int) {
+        //if (player.configManager.config?.isMix == false) return
         ALog.i(TAG, "mix render init")
         mixRender = MixRender(this)
-        mixRender?.init()
+        mixRender?.init(textureID)
     }
 
     override fun onRendering(frameIndex: Int) {
-        val config = player.configManager.config ?: return
-        if (!config.isMix) return
+        //val config = player.configManager.config ?: return
+        //if (!config.isMix) return
         curFrameIndex = frameIndex
+        ALog.i(TAG, "mix render frameIndex=$frameIndex")
+
         val list = frameAll?.map?.get(frameIndex)?.list ?: return
-        list.forEach {frame ->
+
+        list.forEach { frame ->
             val src = srcMap?.map?.get(frame.srcId) ?: return@forEach
-            mixRender?.renderFrame(config, frame, src)
+            if (mAnimConfig != null) {
+                mixRender?.renderFrame(mAnimConfig!!, frame, src)
+            }
         }
     }
 
@@ -113,30 +107,18 @@ class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
         destroy()
     }
 
-    override fun onDispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (player.configManager.config?.isMix == false || resourceClickListener == null) {
-            return super.onDispatchTouchEvent(ev)
-        }
-        mixTouch.onTouchEvent(ev)?.let {resource ->
-            Handler(Looper.getMainLooper()).post {
-                resourceClickListener?.onClick(resource)
-            }
-        }
-        // 只要注册监听则拦截所有事件
-        return true
-    }
-
     private fun destroy() {
         // 强制结束等待
         forceStopLockThread()
-        if (player.configManager.config?.isMix == false) return
+        //if (player.configManager.config?.isMix == false) return
         val resources = ArrayList<Resource>()
-        srcMap?.map?.values?.forEach {src ->
+        srcMap?.map?.values?.forEach { src ->
             mixRender?.release(src.srcTextureId)
-            when(src.srcType) {
+            when (src.srcType) {
                 Src.SrcType.IMG -> resources.add(Resource(src))
                 Src.SrcType.TXT -> src.bitmap?.recycle()
-                else -> {}
+                else -> {
+                }
             }
         }
         resourceRequest?.releaseResource(resources)
@@ -170,7 +152,7 @@ class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
         ALog.i(TAG, "load resource totalSrc = $totalSrc")
 
         resultCbCount = 0
-        srcMap?.map?.values?.forEach {src ->
+        srcMap?.map?.values?.forEach { src ->
             if (src.srcType == Src.SrcType.IMG) {
                 ALog.i(TAG, "fetch image ${src.srcId}")
                 resourceRequest?.fetchImage(Resource(src)) {
@@ -228,4 +210,3 @@ class MixAnimPlugin(val player: AnimPlayer): IAnimPlugin {
         }
     }
 }
-*/

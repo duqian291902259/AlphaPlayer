@@ -9,6 +9,7 @@ import android.view.Surface
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.utils.ShaderUtil
 import com.ss.ugc.android.alpha_player.utils.TextureCropUtil
+import com.ss.ugc.android.alpha_player.vap.AnimConfig
 import com.ss.ugc.android.alpha_player.vap.RenderConstant
 import com.ss.ugc.android.alpha_player.widget.IAlphaVideoView
 import java.lang.Exception
@@ -93,6 +94,9 @@ class AlphaVideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         triangleVertices = ByteBuffer.allocateDirect(halfRightVerticeData.size * FLOAT_SIZE_BYTES)
             .order(ByteOrder.nativeOrder()).asFloatBuffer()
         triangleVertices.put(halfRightVerticeData).position(0)
+    }
+
+    override fun setAnimConfig(animConfig: AnimConfig) {
     }
 
     override fun setSurfaceListener(surfaceListener: IRender.SurfaceListener) {

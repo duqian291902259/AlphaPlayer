@@ -7,8 +7,8 @@ import android.os.Build
 import android.util.Log
 import android.view.Surface
 import com.ss.ugc.android.alpha_player.model.ScaleType
-import com.ss.ugc.android.alpha_player.utils.TextureCropUtil
 import com.ss.ugc.android.alpha_player.vap.*
+import com.ss.ugc.android.alpha_player.vap.plugin.AnimPluginManager
 import com.ss.ugc.android.alpha_player.vap.util.GlFloatArray
 import com.ss.ugc.android.alpha_player.widget.IAlphaVideoView
 import com.ss.ugc.android.alpha_player.vap.util.ShaderUtil
@@ -25,7 +25,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
     companion object {
         private const val TAG = "VideoRender"
-        private const val GL_TEXTURE_EXTERNAL_OES = 0x8D65
+        const val GL_TEXTURE_EXTERNAL_OES = 0x8D65
     }
 
     private val mVPMatrix = FloatArray(16)
@@ -53,6 +53,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     private var surfaceWidth = 0
     private var surfaceHeight = 0
     private var mAnimConfig: AnimConfig? = null
+    val mPluginManager = AnimPluginManager()
 
     init {
         Matrix.setIdentityM(sTMatrix, 0)
@@ -64,6 +65,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
     override fun setAnimConfig(animConfig: AnimConfig) {
         this.mAnimConfig = animConfig
+        mPluginManager.onConfigCreate(animConfig)
         //animConfig = testConfig()
         initByConfig(animConfig)
     }
@@ -90,35 +92,12 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         return config
     }
 
-    private var videoVerticeData = floatArrayOf(
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f
-    )
-
-    private var alphaVerticeData = floatArrayOf(
-        0.0f, -1.0f,
-        1.0f, -1.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f
-    )
-    private var rgbVideoVerticeData = floatArrayOf(
-        -1.0f, -1.0f,
-        0.0f, -1.0f,
-        -1.0f, 1.0f,
-        1.0f, 1.0f
-    )
-
     private fun initByConfig(config: AnimConfig) {
         //AnimConfig(version=2, totalFrames=240, width=672, height=1504, videoWidth=1104, videoHeight=1504, orien=0, fps=20, isMix=true,
         // alphaPointRect=PointRect(x=684, y=4, w=336, h=752), rgbPointRect=PointRect(x=4, y=0, w=672, h=1504), isDefaultConfig=false)
         setVertexBuf(config)
         setTexCoords(config)
 
-        /*vertexArray.setArray(videoVerticeData)
-        alphaArray.setArray(alphaVerticeData)
-        rgbArray.setArray(rgbVideoVerticeData)*/
     }
 
     private fun setVertexBuf(config: AnimConfig) {
@@ -186,6 +165,9 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         }
 
         draw()
+
+        //插件渲染：文字，遮罩图片
+        mPluginManager.onRendering()
     }
 
 
@@ -255,11 +237,15 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         }*/
 
         prepareSurface()
+
+        mPluginManager.onRenderCreate(textureID)
     }
 
     override fun onSurfaceDestroyed(gl: GL10?) {
         surfaceListener?.onSurfaceDestroyed()
         clearFrame()
+        mPluginManager.onRelease()
+        mPluginManager.onDestroy()
     }
 
     private fun clearFrame() {
@@ -306,12 +292,14 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     }
 
     override fun onFirstFrame() {
+        mPluginManager.reset()
         canDraw.compareAndSet(false, true)
         Log.i(TAG, "onFirstFrame:    canDraw = " + canDraw.get())
         alphaVideoView.requestRender()
     }
 
     override fun onCompletion() {
+        mPluginManager.reset()
         canDraw.compareAndSet(true, false)
         Log.i(TAG, "onCompletion:   canDraw = " + canDraw.get())
         alphaVideoView.requestRender()

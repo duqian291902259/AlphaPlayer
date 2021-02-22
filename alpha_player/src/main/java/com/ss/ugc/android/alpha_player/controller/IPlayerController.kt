@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.ss.ugc.android.alpha_player.IMonitor
 import com.ss.ugc.android.alpha_player.IPlayerAction
 import com.ss.ugc.android.alpha_player.model.DataSource
+import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
 
 /**
  * created by dengzhuoyao on 2020/07/07
@@ -26,6 +27,8 @@ interface IPlayerController {
     fun setVisibility(visibility: Int)
 
     fun setPlayerAction(playerAction: IPlayerAction)
+
+    fun setFetchResource(fetchResource: IFetchResource?)
 
     fun setMonitor(monitor: IMonitor)
 

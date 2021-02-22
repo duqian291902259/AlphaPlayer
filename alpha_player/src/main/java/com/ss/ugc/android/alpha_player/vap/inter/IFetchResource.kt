@@ -13,42 +13,21 @@
  * either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ss.ugc.android.alpha_player.vap.util
+package com.ss.ugc.android.alpha_player.vap.inter
 
-object ALog {
+import android.graphics.Bitmap
+import com.ss.ugc.android.alpha_player.vap.Resource
 
-    var isDebug = true
+/**
+ * 获取资源
+ */
+interface IFetchResource {
+    // 获取图片 (暂时不支持Bitmap.Config.ALPHA_8 主要是因为一些机型opengl兼容问题)
+    fun fetchImage(resource: Resource, result:(Bitmap?) -> Unit)
 
-    var log: IALog? = null
+    // 获取文字
+    fun fetchText(resource: Resource, result:(String?) -> Unit)
 
-    fun i(tag: String, msg: String) {
-        log?.i(tag, msg)
-    }
-
-    fun d(tag: String, msg: String) {
-        if (isDebug) {
-            log?.d(tag, msg)
-        }
-    }
-
-    fun e(tag: String, msg: String) {
-        log?.e(tag, msg)
-    }
-
-    fun e(tag: String, msg: String, tr: Throwable) {
-        log?.e(tag, msg, tr)
-    }
+    // 资源释放通知
+    fun releaseResource(resources: List<Resource>)
 }
-
-
-interface IALog {
-    fun i(tag: String, msg: String) {}
-
-    fun d(tag: String, msg: String) {}
-
-    fun e(tag: String, msg: String) {}
-
-    fun e(tag: String, msg: String, tr: Throwable) {}
-}
-
-

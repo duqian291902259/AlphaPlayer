@@ -46,7 +46,7 @@ object TextureLoadUtil {
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0)
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0)
-
+        //bitmap.recycle()
         return textureObjectIds[0]
     }
     

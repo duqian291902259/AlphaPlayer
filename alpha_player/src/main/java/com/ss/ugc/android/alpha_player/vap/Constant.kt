@@ -16,7 +16,7 @@
 package com.ss.ugc.android.alpha_player.vap
 
 object Constant {
-    const val TAG = "AnimPlayer"
+    const val TAG = "dq-av"
 
     // 视频适配的屏幕方向
     const val ORIEN_DEFAULT = 0 // 兼容模式

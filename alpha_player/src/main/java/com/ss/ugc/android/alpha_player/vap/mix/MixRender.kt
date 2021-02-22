@@ -17,15 +17,16 @@ package com.ss.ugc.android.alpha_player.vap.mix
 
 import android.opengl.GLES11Ext
 import android.opengl.GLES20
+import com.ss.ugc.android.alpha_player.render.VideoRenderer
 import com.ss.ugc.android.alpha_player.vap.*
+import com.ss.ugc.android.alpha_player.vap.util.ALog
 import com.ss.ugc.android.alpha_player.vap.util.GlFloatArray
 import com.ss.ugc.android.alpha_player.vap.util.VertexUtil
 
 /**
  * vapx 渲染
  */
-class MixRender() {
-    //private val mixAnimPlugin: MixAnimPlugin
+class MixRender(val mixAnimPlugin: MixAnimPlugin) {
     companion object {
         private const val TAG = "${Constant.TAG}.MixRender"
     }
@@ -34,27 +35,28 @@ class MixRender() {
     var vertexArray = GlFloatArray()
     var srcArray = GlFloatArray()
     var maskArray = GlFloatArray()
+    private var mVideoTextureId = 0 //原始视频的OES纹理id
 
     /**
      * shader 与 texture初始化
      */
-    fun init() {
+    fun init(textureID: Int) {
+        this.mVideoTextureId = textureID
         // shader 初始化
         shader = MixShader()
         GLES20.glDisable(GLES20.GL_DEPTH_TEST) // 关闭深度测试
 
-        /*mixAnimPlugin.srcMap?.map?.values?.forEach {src->
+        mixAnimPlugin.srcMap?.map?.values?.forEach { src ->
             ALog.i(TAG, "init srcId=${src.srcId}")
             src.srcTextureId = TextureLoadUtil.loadTexture(src.bitmap)
             ALog.i(TAG, "textureProgram=${shader?.program},textureId=${src.srcTextureId}")
-        }*/
+        }
 
     }
 
     fun renderFrame(config: AnimConfig, frame: Frame, src: Src) {
-        val videoTextureId =
-            0 //mixAnimPlugin.player.decoder?.render?.getExternalTexture() ?: return
-        if (videoTextureId <= 0) return
+        //mVideoTextureId = mixAnimPlugin.player.decoder?.render?.getExternalTexture() ?: return
+        if (mVideoTextureId <= 0) return
         val shader = this.shader ?: return
         shader.useProgram()
         // 定点坐标，在那个区域绘制遮罩，渲染rect
@@ -95,6 +97,11 @@ class MixRender() {
         }
         maskArray.setVertexAttribPointer(shader.aTextureMaskCoordinatesLocation)
 
+        if (src.srcTextureId==0){
+            src.srcTextureId = TextureLoadUtil.loadTexture(src.bitmap)
+        }
+
+        ALog.d("dq-av","src.srcTextureId=${src.srcTextureId},mVideoTextureId=$mVideoTextureId")
         // 绑定src纹理，对应的文字或者图片生成的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, src.srcTextureId)
@@ -102,7 +109,8 @@ class MixRender() {
 
         // 绑定mask所在的纹理，用的是视频帧的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1)
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, videoTextureId)
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
+        //GLES20.glBindTexture(VideoRenderer.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
         GLES20.glUniform1i(shader.uTextureMaskUnitLocation, 1)
 
         // 属性处理

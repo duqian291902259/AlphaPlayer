@@ -53,7 +53,7 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(
         }
 
         override fun onFrameAvailable(surfaceTexture: SurfaceTexture?) {
-            Log.d("dq-av", "onFrameAvailable 2")
+            //Log.d("dq-av", "onFrameAvailable 2")
         }
     }
 

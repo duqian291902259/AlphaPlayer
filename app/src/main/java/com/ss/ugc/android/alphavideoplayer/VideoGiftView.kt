@@ -16,6 +16,7 @@ import com.ss.ugc.android.alpha_player.controller.PlayerController
 import com.ss.ugc.android.alpha_player.model.AlphaVideoViewType
 import com.ss.ugc.android.alpha_player.model.Configuration
 import com.ss.ugc.android.alpha_player.model.DataSource
+import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
 import com.ss.ugc.android.alphavideoplayer.player.ExoPlayerImpl
 import com.ss.ugc.android.alphavideoplayer.utils.JsonUtil
 
@@ -42,7 +43,13 @@ class VideoGiftView @JvmOverloads constructor(
         return R.layout.view_video_gift
     }
 
-    fun initPlayerController(context: Context, owner: LifecycleOwner, playerAction: IPlayerAction, monitor: IMonitor) {
+    fun initPlayerController(
+        context: Context,
+        owner: LifecycleOwner,
+        playerAction: IPlayerAction,
+        fetchResource: IFetchResource,
+        monitor: IMonitor
+    ) {
         val configuration = Configuration(context, owner)
         //  GLTextureView supports custom display layer, but GLSurfaceView has better performance, and the GLSurfaceView is default.
         configuration.alphaVideoViewType = AlphaVideoViewType.GL_TEXTURE_VIEW
@@ -51,6 +58,7 @@ class VideoGiftView @JvmOverloads constructor(
         mPlayerController = PlayerController.get(configuration, ExoPlayerImpl(context))
         mPlayerController?.let {
             it.setPlayerAction(playerAction)
+            it.setFetchResource(fetchResource)
             it.setMonitor(monitor)
         }
     }
