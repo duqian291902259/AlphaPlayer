@@ -109,8 +109,8 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
 
         // 绑定mask所在的纹理，用的是视频帧的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1)
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
-        //GLES20.glBindTexture(VideoRenderer.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
+        //GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
+        GLES20.glBindTexture(VideoRenderer.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
         GLES20.glUniform1i(shader.uTextureMaskUnitLocation, 1)
 
         // 属性处理

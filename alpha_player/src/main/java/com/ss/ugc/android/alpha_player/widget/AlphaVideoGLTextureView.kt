@@ -31,7 +31,7 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(
 
     private var mVideoWidth: Float = 0f
     private var mVideoHeight: Float = 0f
-    private var mScaleType: ScaleType = ScaleType.ScaleAspectFill
+    private var mScaleType: ScaleType = ScaleType.ScaleAspectFill//ScaleType.ScaleAspectFill
 
     private var mRenderer: IRender? = null
     var mPlayerController: IPlayerControllerExt? = null

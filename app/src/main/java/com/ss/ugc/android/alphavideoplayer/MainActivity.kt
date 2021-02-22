@@ -1,5 +1,6 @@
 package com.ss.ugc.android.alphavideoplayer
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +8,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.ss.ugc.android.alpha_player.IMonitor
 import com.ss.ugc.android.alpha_player.IPlayerAction
@@ -27,8 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main)
-
         PermissionUtils.verifyStoragePermissions(this)
         initVideoGiftView()
     }
@@ -41,12 +46,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var mVideoWidth = 0
+    private var mVideoHeight = 0
     private val playerAction = object : IPlayerAction {
         override fun onVideoSizeChanged(videoWidth: Int, videoHeight: Int, scaleType: ScaleType) {
             Log.i(
                 TAG,
                 "call onVideoSizeChanged(), videoWidth = $videoWidth, videoHeight = $videoHeight, scaleType = $scaleType"
             )
+
+            mVideoWidth = videoWidth
+            mVideoHeight = videoHeight
+            //updateVideoViewLayoutParams()
         }
 
         override fun startAction() {
@@ -58,7 +69,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateVideoViewLayoutParams() {// TODO: 2021/2/22 横竖屏切换的高度问题
+        /*val layoutParams = video_gift_view.layoutParams as RelativeLayout.LayoutParams
+        layoutParams.height = if(mIsLand) mVideoWidth else mVideoHeight
+        layoutParams.width =  if(mIsLand) mVideoHeight else mVideoWidth
+        video_gift_view.requestLayout()*/
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        mIsLand = newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        updateVideoViewLayoutParams()
+    }
+
     private var head1Img = true
+    private var mIsLand = false
 
     private val fetchResource = object : IFetchResource {
         /**
