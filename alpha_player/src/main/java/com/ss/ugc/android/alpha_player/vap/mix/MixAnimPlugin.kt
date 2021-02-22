@@ -1,6 +1,9 @@
 package com.ss.ugc.android.alpha_player.vap.mix
 /*
 import com.ss.ugc.android.alpha_player.vap.Constant
+import com.ss.ugc.android.alpha_player.vap.Resource
+import com.ss.ugc.android.alpha_player.vap.util.ALog
+import com.ss.ugc.android.alpha_player.vap.util.BitmapUtil
 
 * Tencent is pleased to support the open source community by making vap available.
  *

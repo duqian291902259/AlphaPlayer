@@ -52,6 +52,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     private var surfaceSizeChanged = false
     private var surfaceWidth = 0
     private var surfaceHeight = 0
+    private var mAnimConfig: AnimConfig? = null
 
     init {
         Matrix.setIdentityM(sTMatrix, 0)
@@ -59,9 +60,12 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
     override fun setScaleType(scaleType: ScaleType) {
         this.scaleType = scaleType
-        // TODO: 2021/2/22  config传入
-        val config = testConfig()
-        initByConfig(config)
+    }
+
+    override fun setAnimConfig(animConfig: AnimConfig) {
+        this.mAnimConfig = animConfig
+        //animConfig = testConfig()
+        initByConfig(animConfig)
     }
 
     private fun testConfig(): AnimConfig {
@@ -85,7 +89,6 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         )
         return config
     }
-
 
     private var videoVerticeData = floatArrayOf(
         0.0f, 0.0f,

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.ss.ugc.android.alpha_player.controller.IPlayerControllerExt
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.render.IRender
+import com.ss.ugc.android.alpha_player.vap.AnimConfig
 
 /**
  * created by dengzhuoyao on 2020/07/07
@@ -32,7 +33,7 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(
     var mVideoWidth: Float = 0f
     var mVideoHeight: Float = 0f
     var mScaleType: ScaleType = ScaleType.ScaleAspectFill
-
+    var mAnimConfig: AnimConfig? = null
     var mRenderer: IRender? = null
     var mPlayerController: IPlayerControllerExt? = null
     var mSurface: Surface? = null
@@ -101,6 +102,11 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(
     override fun setScaleType(scaleType: ScaleType) {
         this.mScaleType = scaleType
         mRenderer?.setScaleType(scaleType)
+    }
+
+    override fun setAnimConfig(animConfig: AnimConfig) {
+        this.mAnimConfig = animConfig
+        mRenderer?.setAnimConfig(animConfig)
     }
 
     override fun getScaleType(): ScaleType {

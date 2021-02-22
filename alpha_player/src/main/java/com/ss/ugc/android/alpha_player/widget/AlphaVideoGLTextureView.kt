@@ -10,13 +10,17 @@ import android.view.ViewGroup
 import com.ss.ugc.android.alpha_player.controller.IPlayerControllerExt
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.render.IRender
+import com.ss.ugc.android.alpha_player.vap.AnimConfig
 
 /**
  * created by dengzhuoyao on 2020/07/07
  */
-class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: AttributeSet? = null)
-    : GLTextureView(context, attr), IAlphaVideoView {
+class AlphaVideoGLTextureView @JvmOverloads constructor(
+    context: Context,
+    attr: AttributeSet? = null
+) : GLTextureView(context, attr), IAlphaVideoView {
 
+    private var mAnimConfig: AnimConfig? = null
     private val GL_CONTEXT_VERSION = 2
 
     @Volatile
@@ -33,7 +37,7 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: 
     var mPlayerController: IPlayerControllerExt? = null
     var mSurface: Surface? = null
 
-    private val mSurfaceListener = object: IRender.SurfaceListener {
+    private val mSurfaceListener = object : IRender.SurfaceListener {
         override fun onSurfacePrepared(surface: Surface) {
             mSurface?.release()
             mSurface = surface
@@ -49,7 +53,7 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: 
         }
 
         override fun onFrameAvailable(surfaceTexture: SurfaceTexture?) {
-            Log.d("dq-av","onFrameAvailable 2")
+            Log.d("dq-av", "onFrameAvailable 2")
         }
     }
 
@@ -91,6 +95,11 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: 
         setRenderer(renderer)
         addOnSurfacePreparedListener()
         renderMode = RENDERMODE_WHEN_DIRTY
+    }
+
+    override fun setAnimConfig(animConfig: AnimConfig) {
+        this.mAnimConfig = animConfig
+        mRenderer?.setAnimConfig(animConfig)
     }
 
     override fun setScaleType(scaleType: ScaleType) {

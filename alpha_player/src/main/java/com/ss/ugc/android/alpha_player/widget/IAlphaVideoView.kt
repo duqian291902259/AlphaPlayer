@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.ss.ugc.android.alpha_player.controller.IPlayerControllerExt
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.render.IRender
+import com.ss.ugc.android.alpha_player.vap.AnimConfig
 
 interface IAlphaVideoView {
 
@@ -32,6 +33,8 @@ interface IAlphaVideoView {
 
     fun setScaleType(scaleType: ScaleType)
 
+    fun setAnimConfig(animConfig: AnimConfig)
+
     fun getScaleType(): ScaleType
 
     fun isSurfaceCreated(): Boolean
@@ -39,8 +42,6 @@ interface IAlphaVideoView {
     fun measureInternal(videoWidth: Float, videoHeight: Float)
 
     fun onFirstFrame()
-
-    //fun onFrameAvailable()
 
     fun onCompletion()
 

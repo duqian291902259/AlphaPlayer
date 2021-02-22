@@ -4,6 +4,7 @@ import android.graphics.SurfaceTexture
 import android.opengl.GLSurfaceView
 import android.view.Surface
 import com.ss.ugc.android.alpha_player.model.ScaleType
+import com.ss.ugc.android.alpha_player.vap.AnimConfig
 import com.ss.ugc.android.alpha_player.widget.GLTextureView
 
 /**
@@ -34,6 +35,9 @@ interface IRender : GLTextureView.Renderer, GLSurfaceView.Renderer, SurfaceTextu
      * Called when the AlphaVideoView touch onMeasure() callback or the media source be parsed mate data.
      */
     fun measureInternal(viewWidth: Float, viewHeight: Float, videoWidth: Float, videoHeight: Float)
+
+    //外部传递参数
+    fun setAnimConfig(animConfig: AnimConfig)
 
     interface SurfaceListener {
 
