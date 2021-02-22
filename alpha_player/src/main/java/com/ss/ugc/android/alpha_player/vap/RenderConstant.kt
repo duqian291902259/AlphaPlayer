@@ -15,12 +15,12 @@
  */
 package com.ss.ugc.android.alpha_player.vap
 
-
 object RenderConstant {
+    const val VERTEXT_SHADER_TEST = ""
 
-    const val VERTEX_SHADER =
-            "uniform mat4 uMVPMatrix;\n" +
+    const val VERTEX_SHADER = "uniform mat4 uMVPMatrix;\n" +
             "uniform mat4 uSTMatrix;\n" +
+            "\n" +
             "attribute vec4 vPosition;\n" +
             "attribute vec4 vTexCoordinateAlpha;\n" +
             "attribute vec4 vTexCoordinateRgb;\n" +
@@ -30,8 +30,13 @@ object RenderConstant {
             "void main() {\n" +
             "    v_TexCoordinateAlpha = vec2(vTexCoordinateAlpha.x, vTexCoordinateAlpha.y);\n" +
             "    v_TexCoordinateRgb = vec2(vTexCoordinateRgb.x, vTexCoordinateRgb.y);\n" +
-            "    gl_Position = vPosition;\n" +
+            //"    float midX = (uSTMatrix * vec4(0.5, 0.0, 0.0, 1.0)).x;\n" +
+            //"    v_TexCoordinateAlpha = (uSTMatrix * vTexCoordinateAlpha).xy;\n" +
+            //"    v_TexCoordinateRgb = (uSTMatrix * vTexCoordinateRgb).xy;\n" +
+            "    gl_Position = uMVPMatrix * vPosition;\n" +
             "}"
+
+
     const val FRAGMENT_SHADER = "#extension GL_OES_EGL_image_external : require\n" +
             "precision mediump float;\n" +
             "uniform samplerExternalOES texture;\n" +
@@ -43,4 +48,35 @@ object RenderConstant {
             "    vec4 rgbColor = texture2D(texture, v_TexCoordinateRgb);\n" +
             "    gl_FragColor = vec4(rgbColor.r, rgbColor.g, rgbColor.b, alphaColor.r);\n" +
             "}"
+
+
+    private val VERTEX_SHADER1 = """uniform mat4 uMVPMatrix;
+uniform mat4 uSTMatrix;
+
+attribute vec4 aPosition;
+attribute vec4 aTextureCoord;
+
+varying vec2 vTextureCoord;
+varying vec2 r_TexCoordinate;
+void main() {
+    vTextureCoord = (uSTMatrix * aTextureCoord).xy;
+         float midX = (uSTMatrix * vec4(0.5, 0.0, 0.0, 1.0)).x;
+          r_TexCoordinate = vec2(vTextureCoord.x + midX, vTextureCoord.y);
+          gl_Position = uMVPMatrix * aPosition;
+}
+"""
+
+    // Simple fragment shader for use with "normal" 2D textures.
+    private val FRAGMENT_SHADER_2D = """#extension GL_OES_EGL_image_external : require
+precision mediump float;
+varying vec2 vTextureCoord;
+varying vec2 r_TexCoordinate;
+uniform samplerExternalOES sTexture;
+
+void main() {
+    vec4 color = texture2D(sTexture, vTextureCoord);
+     vec4 alpha = texture2D(sTexture, vec2(r_TexCoordinate.x, r_TexCoordinate.y));
+      gl_FragColor = vec4(color.r, color.g, color.b, alpha.r);
+}
+"""
 }
