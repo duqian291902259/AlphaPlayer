@@ -265,14 +265,14 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     }
 
     /**
-     * create program with {@link vertex.sh} and {@link frag.sh}. If attach shader or link
+     * create program with {@link vertex.glsl} and {@link frag.glsl}. If attach shader or link
      * program, it will return 0, else return program handle
      *
      * @return programID If link program success, it will return program handle, else return 0.
      */
     private fun createProgram(): Int {
-        val vertexSource = ShaderUtil.loadFromAssetsFile("vertex.sh", alphaVideoView.getView().resources)
-        val fragmentSource = ShaderUtil.loadFromAssetsFile("frag.sh", alphaVideoView.getView().resources)
+        val vertexSource = ShaderUtil.loadFromAssetsFile("vertex.glsl", alphaVideoView.getView().resources)
+        val fragmentSource = ShaderUtil.loadFromAssetsFile("frag.glsl", alphaVideoView.getView().resources)
 
         val vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource)
         if (vertexShader == 0) {
