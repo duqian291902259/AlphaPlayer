@@ -9,7 +9,6 @@ import android.view.Surface
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.utils.ShaderUtil
 import com.ss.ugc.android.alpha_player.utils.TextureCropUtil
-import com.ss.ugc.android.alpha_player.vap.RenderConstant
 import com.ss.ugc.android.alpha_player.widget.IAlphaVideoView
 import java.lang.Exception
 import java.nio.ByteBuffer
@@ -22,7 +21,7 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * created by dengzhuoyao on 2020/07/07
  */
-class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
+class AlphaVideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
     private val TAG = "VideoRender"
 
@@ -273,8 +272,8 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
      * @return programID If link program success, it will return program handle, else return 0.
      */
     private fun createProgram(): Int {
-        val vertexSource = RenderConstant.VERTEX_SHADER //ShaderUtil.loadFromAssetsFile("vertex.glsl", alphaVideoView.getView().resources)
-        val fragmentSource = RenderConstant.FRAGMENT_SHADER //ShaderUtil.loadFromAssetsFile("frag.glsl", alphaVideoView.getView().resources)
+        val vertexSource = ShaderUtil.loadFromAssetsFile("vertex.glsl", alphaVideoView.getView().resources)
+        val fragmentSource = ShaderUtil.loadFromAssetsFile("frag.glsl", alphaVideoView.getView().resources)
 
         val vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource)
         if (vertexShader == 0) {

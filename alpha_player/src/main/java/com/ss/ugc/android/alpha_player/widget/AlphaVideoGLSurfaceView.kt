@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import com.ss.ugc.android.alpha_player.render.IRender
 class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: AttributeSet? = null)
     : GLSurfaceView(context, attr), IAlphaVideoView {
 
-    val GL_CONTEXT_VERSION = 2
+    private val GL_CONTEXT_VERSION = 2
 
     @Volatile
     private var isSurfaceCreated: Boolean = false
@@ -115,6 +116,10 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: 
 
     override fun onFirstFrame() {
         mRenderer?.onFirstFrame()
+    }
+
+    override fun onFrameAvailable() {
+        Log.d("dq-av","onFrameAvailable 1")
     }
 
     override fun onCompletion() {
