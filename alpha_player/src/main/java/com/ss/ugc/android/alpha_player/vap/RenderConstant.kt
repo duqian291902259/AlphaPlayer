@@ -18,7 +18,10 @@ package com.ss.ugc.android.alpha_player.vap
 
 object RenderConstant {
 
-    const val VERTEX_SHADER = "attribute vec4 vPosition;\n" +
+    const val VERTEX_SHADER =
+            "uniform mat4 uMVPMatrix;\n" +
+            "uniform mat4 uSTMatrix;\n" +
+            "attribute vec4 vPosition;\n" +
             "attribute vec4 vTexCoordinateAlpha;\n" +
             "attribute vec4 vTexCoordinateRgb;\n" +
             "varying vec2 v_TexCoordinateAlpha;\n" +
