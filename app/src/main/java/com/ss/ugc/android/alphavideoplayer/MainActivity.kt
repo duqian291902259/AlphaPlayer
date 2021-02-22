@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initVideoGiftView() {
         video_gift_view.initPlayerController(this, this, playerAction, monitor)
+        video_gift_view.post {
+            video_gift_view.attachView()
+            startPlay()
+        }
     }
 
     private val playerAction = object : IPlayerAction {
@@ -66,10 +70,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun playGift(v: View) {
+        startPlay()
+    }
+
+    private fun startPlay() {
         val testPath = getResourcePath()
         Log.i("dzy", "play gift file path : $testPath")
         if ("".equals(testPath)) {
-            Toast.makeText(this, "please run 'gift_install.sh gift/demoRes' for load alphaVideo resource.", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                this,
+                "please run 'gift_install.sh gift/demoRes' for load alphaVideo resource.",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
         video_gift_view.startVideoGift(testPath)
