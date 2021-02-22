@@ -2,6 +2,7 @@ package com.ss.ugc.android.alpha_player.widget
 
 import android.content.Context
 import android.graphics.PixelFormat
+import android.graphics.SurfaceTexture
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
 import android.util.Log
@@ -15,8 +16,10 @@ import com.ss.ugc.android.alpha_player.render.IRender
 /**
  * created by dengzhuoyao on 2020/07/07
  */
-class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: AttributeSet? = null)
-    : GLSurfaceView(context, attr), IAlphaVideoView {
+class AlphaVideoGLSurfaceView @JvmOverloads constructor(
+    context: Context,
+    attr: AttributeSet? = null
+) : GLSurfaceView(context, attr), IAlphaVideoView {
 
     private val GL_CONTEXT_VERSION = 2
 
@@ -34,7 +37,7 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: 
     var mPlayerController: IPlayerControllerExt? = null
     var mSurface: Surface? = null
 
-    private val mSurfaceListener = object: IRender.SurfaceListener {
+    private val mSurfaceListener = object : IRender.SurfaceListener {
         override fun onSurfacePrepared(surface: Surface) {
             mSurface?.release()
             mSurface = surface
@@ -47,6 +50,10 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: 
             mSurface?.release()
             mSurface = null
             isSurfaceCreated = false
+        }
+
+        override fun onFrameAvailable(surfaceTexture: SurfaceTexture?) {
+            Log.d("dq-av", "onFrameAvailable 2")
         }
     }
 
@@ -116,10 +123,6 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(context: Context, attr: 
 
     override fun onFirstFrame() {
         mRenderer?.onFirstFrame()
-    }
-
-    override fun onFrameAvailable() {
-        Log.d("dq-av","onFrameAvailable 1")
     }
 
     override fun onCompletion() {

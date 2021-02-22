@@ -1,6 +1,7 @@
 package com.ss.ugc.android.alpha_player.widget
 
 import android.content.Context
+import android.graphics.SurfaceTexture
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Surface
@@ -45,6 +46,10 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: 
             mSurface?.release()
             mSurface = null
             isSurfaceCreated = false
+        }
+
+        override fun onFrameAvailable(surfaceTexture: SurfaceTexture?) {
+            Log.d("dq-av","onFrameAvailable 2")
         }
     }
 
@@ -113,11 +118,6 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(context: Context, attr: 
 
     override fun onFirstFrame() {
         mRenderer?.onFirstFrame()
-    }
-
-    //帧可用
-    override fun onFrameAvailable() {
-        Log.d("dq-av","onFrameAvailable 2")
     }
 
     override fun onCompletion() {

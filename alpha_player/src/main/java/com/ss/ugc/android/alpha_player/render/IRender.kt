@@ -46,5 +46,8 @@ interface IRender : GLTextureView.Renderer, GLSurfaceView.Renderer, SurfaceTextu
          * Called when Surface is Destroyed.
          */
         fun onSurfaceDestroyed()
+
+        fun onFrameAvailable(surfaceTexture: SurfaceTexture?)
+
     }
 }

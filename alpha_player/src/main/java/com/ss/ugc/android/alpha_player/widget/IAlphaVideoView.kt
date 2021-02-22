@@ -40,7 +40,7 @@ interface IAlphaVideoView {
 
     fun onFirstFrame()
 
-    fun onFrameAvailable()
+    //fun onFrameAvailable()
 
     fun onCompletion()
 

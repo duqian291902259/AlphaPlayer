@@ -222,9 +222,9 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     }
 
     override fun onFrameAvailable(surface: SurfaceTexture) {
+        surfaceListener?.onFrameAvailable(surface)
         updateSurface.compareAndSet(false, true)
         alphaVideoView.requestRender()
-        alphaVideoView.onFrameAvailable()
     }
 
     override fun onFirstFrame() {
