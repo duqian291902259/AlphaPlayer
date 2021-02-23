@@ -65,6 +65,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
 
     override fun setAnimConfig(animConfig: AnimConfig) {
         this.mAnimConfig = animConfig
+        mPluginManager.reset()
         mPluginManager.onConfigCreate(animConfig)
         //animConfig = testConfig()
         initByConfig(animConfig)
