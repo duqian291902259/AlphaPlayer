@@ -37,7 +37,7 @@ interface IRender : GLTextureView.Renderer, GLSurfaceView.Renderer, SurfaceTextu
     fun measureInternal(viewWidth: Float, viewHeight: Float, videoWidth: Float, videoHeight: Float)
 
     //外部传递参数
-    fun setAnimConfig(animConfig: AnimConfig)
+    fun setAnimConfig(animConfig: AnimConfig?)
 
     interface SurfaceListener {
 

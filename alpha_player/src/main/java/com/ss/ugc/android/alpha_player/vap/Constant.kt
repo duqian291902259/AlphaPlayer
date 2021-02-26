@@ -29,7 +29,6 @@ object Constant {
     @Deprecated("Compatible older version mp4")
     const val VIDEO_MODE_SPLIT_VERTICAL = 2 // 视频上下对齐
 
-
     const val OK = 0 // 成功
 
     const val REPORT_ERROR_TYPE_EXTRACTOR_EXC = 10001 // MediaExtractor exception

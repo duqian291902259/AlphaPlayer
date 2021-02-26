@@ -33,7 +33,7 @@ interface IAlphaVideoView {
 
     fun setScaleType(scaleType: ScaleType)
 
-    fun setAnimConfig(animConfig: AnimConfig)
+    fun setAnimConfig(animConfig: AnimConfig?)
 
     fun getScaleType(): ScaleType
 

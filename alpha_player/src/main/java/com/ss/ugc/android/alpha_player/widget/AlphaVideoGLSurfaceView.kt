@@ -104,7 +104,7 @@ class AlphaVideoGLSurfaceView @JvmOverloads constructor(
         mRenderer?.setScaleType(scaleType)
     }
 
-    override fun setAnimConfig(animConfig: AnimConfig) {
+    override fun setAnimConfig(animConfig: AnimConfig?) {
         this.mAnimConfig = animConfig
         mRenderer?.setAnimConfig(animConfig)
     }

@@ -89,11 +89,8 @@ class AnimConfigManager() {
 
 
     private fun parse(fileContainer: FileContainer, defaultVideoMode: Int, defaultFps: Int): Boolean {
-
         val config = AnimConfig()
         this.config = config
-
-
         // 查找vapc box
         fileContainer.startRandomRead()
         val boxHead = ByteArray(8)

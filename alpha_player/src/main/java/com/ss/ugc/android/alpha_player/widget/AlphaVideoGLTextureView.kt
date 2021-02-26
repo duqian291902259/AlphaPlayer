@@ -97,7 +97,7 @@ class AlphaVideoGLTextureView @JvmOverloads constructor(
         renderMode = RENDERMODE_WHEN_DIRTY
     }
 
-    override fun setAnimConfig(animConfig: AnimConfig) {
+    override fun setAnimConfig(animConfig: AnimConfig?) {
         this.mAnimConfig = animConfig
         mRenderer?.setAnimConfig(animConfig)
     }

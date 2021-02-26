@@ -96,7 +96,7 @@ class AlphaVideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         triangleVertices.put(halfRightVerticeData).position(0)
     }
 
-    override fun setAnimConfig(animConfig: AnimConfig) {
+    override fun setAnimConfig(animConfig: AnimConfig?) {
     }
 
     override fun setSurfaceListener(surfaceListener: IRender.SurfaceListener) {
