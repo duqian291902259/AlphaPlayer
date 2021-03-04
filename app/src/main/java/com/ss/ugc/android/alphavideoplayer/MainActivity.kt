@@ -99,7 +99,8 @@ class MainActivity : AppCompatActivity() {
              */
             val srcTag = resource.tag
 
-            if (srcTag == "[sImg1]") {//if (srcTag == "[tag1]") { // 此tag是已经写入到动画配置中的tag
+            //if (srcTag == "[sImg1]") {
+            if (srcTag == "tag1") { // 此tag是已经写入到动画配置中的tag
                 val drawableId = if (head1Img) R.mipmap.dq else R.mipmap.dq
                 head1Img = !head1Img
                 val options = BitmapFactory.Options()
@@ -118,8 +119,8 @@ class MainActivity : AppCompatActivity() {
             val str = "杜小菜升神"
             val srcTag = resource.tag
 
-            if (srcTag == "[sTxt1]") { // 此tag是已经写入到动画配置中的tag
-                //if (srcTag == "tag1") {
+            //if (srcTag == "[sTxt1]") { // 此tag是已经写入到动画配置中的tag
+            if (srcTag == "tag2") {
                 result(str)
             } else {
                 result(null)
