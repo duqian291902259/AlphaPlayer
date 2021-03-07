@@ -16,6 +16,7 @@
 package com.ss.ugc.android.alpha_player.vap
 
 import android.os.SystemClock
+import android.util.Log
 import com.ss.ugc.android.alpha_player.vap.util.ALog
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -124,6 +125,7 @@ class AnimConfigManager() {
         fileContainer.closeRandomRead()
 
         val json = String(vapcBuf, 0, vapcBuf.size, Charset.forName("UTF-8"))
+        Log.d("dq-av","json=$json")
         val jsonObj = JSONObject(json)
         config.jsonConfig = jsonObj
         val result = config.parse(jsonObj)

@@ -125,14 +125,14 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
 
         GLES20.glEnable(GLES20.GL_BLEND)
         // 基于源象素alpha通道值的半透明混合函数
-        GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA)
+        //GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA)
 
-        /*GLES20.glBlendFuncSeparate(
+        GLES20.glBlendFuncSeparate(
             GLES20.GL_SRC_ALPHA,
             GLES20.GL_ONE_MINUS_SRC_ALPHA,
             GLES20.GL_ONE,
             GLES20.GL_ONE_MINUS_SRC_ALPHA
-        )*/
+        )
         // draw
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
 
