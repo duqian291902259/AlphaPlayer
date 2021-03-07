@@ -1,5 +1,6 @@
 package com.ss.ugc.android.alphavideoplayer
 
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
             mVideoWidth = videoWidth
             mVideoHeight = videoHeight
-            //updateVideoViewLayoutParams()
+            updateVideoViewLayoutParams()
         }
 
         override fun startAction() {
@@ -95,10 +96,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateVideoViewLayoutParams() {// TODO: 2021/2/22 横竖屏切换的高度问题
-        val layoutParams = video_gift_view.layoutParams as RelativeLayout.LayoutParams
-        layoutParams.width =  mVideoWidth//if(mIsLand) mVideoHeight else mVideoWidth
-        layoutParams.height = mVideoHeight//if(mIsLand) mVideoWidth else mVideoHeight
+        val lp = video_gift_view.layoutParams as RelativeLayout.LayoutParams
+        //lp.width = mVideoWidth//if(mIsLand) mVideoHeight else mVideoWidth
+        //lp.height = mVideoHeight//if(mIsLand) mVideoWidth else mVideoHeight
+        val w = window.decorView.width
+        lp.width = if (w == 0) dp2px(this, 400f).toInt() else w
+        lp.height = (w * mVideoHeight * 1f / mVideoWidth).toInt()
+        video_gift_view.layoutParams = lp
         video_gift_view.requestLayout()
+    }
+
+    private fun dp2px(context: Context, dp: Float): Float {
+        val scale = context.resources.displayMetrics.density
+        return dp * scale + 0.5f
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
