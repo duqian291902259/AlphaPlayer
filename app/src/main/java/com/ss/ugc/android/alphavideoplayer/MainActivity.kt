@@ -17,6 +17,8 @@ import com.ss.ugc.android.alpha_player.IPlayerAction
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.vap.Resource
 import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
+import com.ss.ugc.android.alpha_player.vap.util.ALog
+import com.ss.ugc.android.alpha_player.vap.util.IALog
 import com.ss.ugc.android.alphavideoplayer.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -36,7 +38,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         PermissionUtils.verifyStoragePermissions(this)
         initVideoGiftView()
+        initLog()
     }
+
+    private fun initLog() {
+        ALog.isDebug = BuildConfig.DEBUG
+        ALog.log = object : IALog {
+            override fun i(tag: String, msg: String) {
+                Log.i(tag, msg)
+            }
+
+            override fun d(tag: String, msg: String) {
+                Log.d(tag, msg)
+            }
+
+            override fun e(tag: String, msg: String) {
+                Log.e(tag, msg)
+            }
+
+            override fun e(tag: String, msg: String, tr: Throwable) {
+                Log.e(tag, msg, tr)
+            }
+        }
+    }
+
 
     private fun initVideoGiftView() {
         video_gift_view.initPlayerController(this, this, playerAction, fetchResource, monitor)
@@ -166,6 +191,7 @@ class MainActivity : AppCompatActivity() {
         video_gift_view.detachView()
         video_gift_view.attachView()
         val end = System.currentTimeMillis()
+        video_gift_view.reset()
         startPlay()
         Log.i("dq-av", "play11: ${end - start}")
         Log.i("dq-av", "play22: ${System.currentTimeMillis() - start}")

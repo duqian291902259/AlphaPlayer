@@ -35,6 +35,7 @@ class AnimPluginManager {
     private val plugins = listOf<IAnimPlugin>(mixAnimPlugin)
 
     // 当前渲染的帧
+    @Volatile
     private var frameIndex = 0
 
     // 当前解码的帧

@@ -56,7 +56,10 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
 
     fun renderFrame(config: AnimConfig, frame: Frame, src: Src) {
         //mVideoTextureId = mixAnimPlugin.player.decoder?.render?.getExternalTexture() ?: return
-        if (mVideoTextureId <= 0) return
+        if (mVideoTextureId <= 0 || this.shader == null) {
+            ALog.i(TAG, "return mVideoTextureId")
+            return
+        }
         val shader = this.shader ?: return
         shader.useProgram()
         // 定点坐标，在那个区域绘制遮罩，渲染rect
@@ -97,11 +100,11 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
         }
         maskArray.setVertexAttribPointer(shader.aTextureMaskCoordinatesLocation)
 
-        if (src.srcTextureId==0){
+        if (src.srcTextureId == 0) {
             src.srcTextureId = TextureLoadUtil.loadTexture(src.bitmap)
         }
 
-        ALog.d("dq-av","src.srcTextureId=${src.srcTextureId},mVideoTextureId=$mVideoTextureId")
+        ALog.d("dq-av", "src.srcTextureId=${src.srcTextureId},mVideoTextureId=$mVideoTextureId")
         // 绑定src纹理，对应的文字或者图片生成的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, src.srcTextureId)

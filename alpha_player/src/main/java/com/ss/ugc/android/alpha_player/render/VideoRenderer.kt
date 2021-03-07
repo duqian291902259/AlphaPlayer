@@ -163,6 +163,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT or GLES20.GL_COLOR_BUFFER_BIT)
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
         if (!canDraw.get()) {
+            mPluginManager.reset()
             GLES20.glFinish()
             return
         }

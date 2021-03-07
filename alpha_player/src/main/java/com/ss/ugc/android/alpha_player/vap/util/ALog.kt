@@ -40,7 +40,6 @@ object ALog {
     }
 }
 
-
 interface IALog {
     fun i(tag: String, msg: String) {}
 

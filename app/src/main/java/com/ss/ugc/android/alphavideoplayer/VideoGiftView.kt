@@ -99,4 +99,8 @@ class VideoGiftView @JvmOverloads constructor(
             it.release()
         }
     }
+
+    fun reset(){
+        mPlayerController?.reset()
+    }
 }
