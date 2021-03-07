@@ -72,7 +72,7 @@ class VideoGiftView @JvmOverloads constructor(
             .setBaseDir(filePath)
             .setPortraitPath(configModel.portraitItem!!.path!!, configModel.portraitItem!!.alignMode)
             .setLandscapePath(configModel.landscapeItem!!.path!!, configModel.landscapeItem!!.alignMode)
-            .setLooping(false)
+            .setLooping(false)//不能设置循坏播放，会导致无法知道遮罩的对应那一帧
         startDataSource(dataSource)
     }
 
@@ -85,12 +85,12 @@ class VideoGiftView @JvmOverloads constructor(
 
     fun attachView() {
         mPlayerController?.attachAlphaView(mVideoContainer)
-        Toast.makeText(context, "attach alphaVideoView", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "attach alphaVideoView", Toast.LENGTH_SHORT).show()
     }
 
     fun detachView() {
         mPlayerController?.detachAlphaView(mVideoContainer)
-        Toast.makeText(context, "detach alphaVideoView", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "detach alphaVideoView", Toast.LENGTH_SHORT).show()
     }
 
     fun releasePlayerController() {

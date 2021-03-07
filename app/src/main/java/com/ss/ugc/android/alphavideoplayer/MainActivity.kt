@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateVideoViewLayoutParams() {// TODO: 2021/2/22 横竖屏切换的高度问题
-        /*val layoutParams = video_gift_view.layoutParams as RelativeLayout.LayoutParams
-        layoutParams.height = if(mIsLand) mVideoWidth else mVideoHeight
-        layoutParams.width =  if(mIsLand) mVideoHeight else mVideoWidth
-        video_gift_view.requestLayout()*/
+        val layoutParams = video_gift_view.layoutParams as RelativeLayout.LayoutParams
+        layoutParams.width =  mVideoWidth//if(mIsLand) mVideoHeight else mVideoWidth
+        layoutParams.height = mVideoHeight//if(mIsLand) mVideoWidth else mVideoHeight
+        video_gift_view.requestLayout()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -161,13 +161,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun playGift(v: View) {
+        // TODO-dq: 3/7/21 修复重新播放遮罩纹理没有完全融合的问题
+        val start = System.currentTimeMillis()
+        video_gift_view.detachView()
+        video_gift_view.attachView()
+        val end = System.currentTimeMillis()
         startPlay()
+        Log.i("dq-av", "play11: ${end - start}")
+        Log.i("dq-av", "play22: ${System.currentTimeMillis() - start}")
     }
 
     private fun startPlay() {
         val testPath = getResourcePath()
         Log.i("dzy", "play gift file path : $testPath")
-        if ("".equals(testPath)) {
+        if ("" == testPath) {
             Toast.makeText(
                 this,
                 "please run 'gift_install.sh gift/demoRes' for load alphaVideo resource.",

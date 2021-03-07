@@ -306,6 +306,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         canDraw.compareAndSet(true, false)
         Log.i(TAG, "onCompletion:   canDraw = " + canDraw.get())
         alphaVideoView.requestRender()
+        clearFrame()
     }
 
 

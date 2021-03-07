@@ -60,7 +60,22 @@ class ExoPlayerImpl(private val context: Context) : AbsPlayer(context) {
 
         override fun onRenderedFirstFrame() {
             firstFrameListener?.onFirstFrame()
+
+            //test()
         }
+    }
+
+    private fun test() {
+        Thread {
+            while (true) {
+                try {
+                    val videoDecoderCounters =
+                        exoPlayer.videoDecoderCounters.renderedOutputBufferCount
+                    Log.d("dq-test", "videoDecoderCounters=$videoDecoderCounters")
+                } catch (e: Exception) {
+                }
+            }
+        }.start()
     }
 
     init {
