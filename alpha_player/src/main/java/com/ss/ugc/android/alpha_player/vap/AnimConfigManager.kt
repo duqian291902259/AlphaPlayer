@@ -71,6 +71,10 @@ class AnimConfigManager() {
      */
     fun defaultConfig(_videoWidth: Int, _videoHeight: Int) {
         if (config?.isDefaultConfig == false) return
+        if (config==null) {
+            val config = AnimConfig()
+            this.config = config
+        }
         config?.apply {
             videoWidth = _videoWidth
             videoHeight = _videoHeight

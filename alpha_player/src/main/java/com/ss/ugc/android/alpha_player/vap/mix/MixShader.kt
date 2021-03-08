@@ -48,7 +48,9 @@ class MixShader {
                 "    vec4 maskRgba = texture2D(u_TextureMaskUnit, v_TextureMaskCoordinates);\n" +
                 "    float isFill = step(0.5, float(u_isFill));\n" +
                 "    vec4 srcRgbaCal = isFill * vec4(u_Color.r, u_Color.g, u_Color.b, srcRgba.a) + (1.0 - isFill) * srcRgba;\n" +
-                "    gl_FragColor = vec4(srcRgbaCal.r, srcRgbaCal.g, srcRgbaCal.b, srcRgbaCal.a * maskRgba.r);\n" +
+                "    float mAlpha =  maskRgba.r;\n" +
+                "    if(maskRgba.g<=0.8) { mAlpha=maskRgba.r; } else { mAlpha=0.0; };\n" +
+                "    gl_FragColor = vec4(srcRgbaCal.r, srcRgbaCal.g, srcRgbaCal.b, srcRgbaCal.a * mAlpha);\n" +
                 "}"
 
         // Uniform constants
