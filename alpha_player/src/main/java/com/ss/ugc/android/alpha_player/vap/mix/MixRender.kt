@@ -104,7 +104,7 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
             src.srcTextureId = TextureLoadUtil.loadTexture(src.bitmap)
         }
 
-        ALog.d("dq-av", "src.srcTextureId=${src.srcTextureId},mVideoTextureId=$mVideoTextureId")
+        //ALog.d("dq-av", "src.srcTextureId=${src.srcTextureId},mVideoTextureId=$mVideoTextureId")
         // 绑定src纹理，对应的文字或者图片生成的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, src.srcTextureId)
