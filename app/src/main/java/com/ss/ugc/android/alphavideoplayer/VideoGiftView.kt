@@ -56,8 +56,8 @@ class VideoGiftView @JvmOverloads constructor(
         configuration.alphaVideoViewType = AlphaVideoViewType.GL_TEXTURE_VIEW
         //  You can implement your IMediaPlayer, here we use ExoPlayerImpl that implemented by ExoPlayer, and
         //  we support DefaultSystemPlayer as default player.
-        //mPlayerController = PlayerController.get(configuration, ExoPlayerImpl(context))
-        mPlayerController = PlayerController.get(configuration, AnimPlayer(context))
+        mPlayerController = PlayerController.get(configuration, ExoPlayerImpl(context))
+        //mPlayerController = PlayerController.get(configuration, AnimPlayer(context))
         mPlayerController?.let {
             it.setPlayerAction(playerAction)
             it.setFetchResource(fetchResource)

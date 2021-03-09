@@ -37,6 +37,7 @@ class AnimPluginManager {
     // 当前渲染的帧
     @Volatile
     private var frameIndex = 0
+    private var needAdjust = true //粗暴调整一下帧索引
 
     // 当前解码的帧
     private var decodeIndex = 1
@@ -75,6 +76,8 @@ class AnimPluginManager {
         }
     }
 
+    var totalFrame = 0 //总的帧数
+
     fun onRendering() {
         /*if (decodeIndex > frameIndex + 1 || frameDiffTimes >= DIFF_TIMES) {
             ALog.i(
@@ -88,14 +91,22 @@ class AnimPluginManager {
         } else {
             frameDiffTimes = 0
         }*/
+        if (frameIndex > totalFrame) {
+            return
+        }
         ALog.d(TAG, "onRendering frameIndex=$frameIndex")
         plugins.forEach {
             it.onRendering(frameIndex) // 第一帧 0
+        }
+        if (frameIndex == 0 && needAdjust) {
+            needAdjust = false
+            return
         }
         frameIndex++
     }
 
     fun reset() {
+        needAdjust = true
         frameIndex = 0
     }
 
@@ -108,6 +119,7 @@ class AnimPluginManager {
     }
 
     fun onDestroy() {
+        reset()
         ALog.i(TAG, "onDestroy")
         plugins.forEach {
             it.onDestroy()

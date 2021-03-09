@@ -96,6 +96,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
     }
 
     private fun initByConfig(config: AnimConfig) {
+        mPluginManager.totalFrame = config.totalFrames
         //AnimConfig(version=2, totalFrames=240, width=672, height=1504, videoWidth=1104, videoHeight=1504, orien=0, fps=20, isMix=true,
         // alphaPointRect=PointRect(x=684, y=4, w=336, h=752), rgbPointRect=PointRect(x=4, y=0, w=672, h=1504), isDefaultConfig=false)
         setVertexBuf(config)

@@ -218,6 +218,7 @@ class HardDecoder(player: AnimPlayer) : Decoder(player) {//, SurfaceTexture.OnFr
                         if (frameIndex == 0) {
                             onVideoStart()
                         }
+                        //通知解码一帧了
                         player.pluginManager.onDecoding(frameIndex)
                         onVideoRender(frameIndex, player.configManager.config)
 
