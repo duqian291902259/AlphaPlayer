@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
             mVideoWidth = videoWidth
             mVideoHeight = videoHeight
-            updateVideoViewLayoutParams()
+            //updateVideoViewLayoutParams()
         }
 
         override fun startAction() {
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
         mIsLand = newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        updateVideoViewLayoutParams()
+        //updateVideoViewLayoutParams()
     }
 
     private var head1Img = true
