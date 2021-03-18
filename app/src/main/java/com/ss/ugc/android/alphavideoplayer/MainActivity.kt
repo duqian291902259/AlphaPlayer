@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
              * 比如：一个素材里需要显示多个头像，则需要定义多个不同的tag，表示不同位置，需要显示不同的头像，文字类似
              */
             val srcTag = resource.tag
-            val drawableId = if (head1Img) R.mipmap.dq else R.mipmap.dq
+            val drawableId = if (head1Img) R.mipmap.dq else R.mipmap.avator1
 
             //if (srcTag == "[sImg1]") {
             if (srcTag.contains("tag")) { // 此tag是已经写入到动画配置中的tag
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
          */
         override fun fetchText(resource: Resource, result: (String?) -> Unit) {
             //val str = "恭喜 No.${1000 + Random().nextInt(8999)} 杜小菜 升神"
-            val str = "杜小菜升神"
+            val str = "杜小菜升级了"
             val srcTag = resource.tag
 
             //if (srcTag == "[sTxt1]") { // 此tag是已经写入到动画配置中的tag

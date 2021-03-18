@@ -33,6 +33,7 @@ class MixShader {
                 "}"
 
         //step:It returns 0.0 if x < edge and 1.0 if x >= edge.取遮罩图片的颜色，遮罩的alpha值  srcRgba.a * maskRgba.r,
+        //gl_FragColor = vec4(srcRgbaCal.r, srcRgbaCal.g, srcRgbaCal.b, srcRgbaCal.a*maskRgba.r);\n" +
         // todo-dq 因为缺少了遮罩的透明度信息，所以可以在视频的argb通道里面存储遮罩的透明度信息
         private const val FRAGMENT = "#extension GL_OES_EGL_image_external : require\n" +
                 "precision mediump float; \n" +
