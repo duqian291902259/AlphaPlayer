@@ -133,10 +133,10 @@ class MainActivity : AppCompatActivity() {
              * 比如：一个素材里需要显示多个头像，则需要定义多个不同的tag，表示不同位置，需要显示不同的头像，文字类似
              */
             val srcTag = resource.tag
+            val drawableId = if (head1Img) R.mipmap.dq else R.mipmap.dq
 
             //if (srcTag == "[sImg1]") {
-            if (srcTag == "tag1") { // 此tag是已经写入到动画配置中的tag
-                val drawableId = if (head1Img) R.mipmap.dq else R.mipmap.dq
+            if (srcTag.contains("tag")) { // 此tag是已经写入到动画配置中的tag
                 head1Img = !head1Img
                 val options = BitmapFactory.Options()
                 options.inScaled = false
@@ -155,7 +155,8 @@ class MainActivity : AppCompatActivity() {
             val srcTag = resource.tag
 
             //if (srcTag == "[sTxt1]") { // 此tag是已经写入到动画配置中的tag
-            if (srcTag == "tag2") {
+            //if (srcTag == "tag2") {
+            if (srcTag.contains("tag")) {
                 result(str)
             } else {
                 result(null)
@@ -197,14 +198,12 @@ class MainActivity : AppCompatActivity() {
 
     fun playGift(v: View) {
         // TODO-dq: 3/7/21 修复重新播放遮罩纹理没有完全融合的问题
-        val start = System.currentTimeMillis()
-        video_gift_view.detachView()
-        video_gift_view.attachView()
-        val end = System.currentTimeMillis()
-        video_gift_view.reset()
+        /*video_gift_view.detachView()
+         video_gift_view.attachView()
+         val end = System.currentTimeMillis()
+         video_gift_view.reset()
+         */
         startPlay()
-        Log.i("dq-av", "play11: ${end - start}")
-        Log.i("dq-av", "play22: ${System.currentTimeMillis() - start}")
     }
 
     private fun startPlay() {

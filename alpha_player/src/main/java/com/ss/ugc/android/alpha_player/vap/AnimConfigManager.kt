@@ -86,8 +86,8 @@ class AnimConfigManager() {
             } else { // 默认左右对齐
                 width = _videoWidth / 2
                 height = _videoHeight
-                alphaPointRect = PointRect(0, 0, width, height)
-                rgbPointRect = PointRect(width, 0, width, height)
+                rgbPointRect = PointRect(0, 0, width, height)
+                alphaPointRect = PointRect(width, 0, width, height)
             }
         }
     }

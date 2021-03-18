@@ -200,7 +200,11 @@ class MixAnimPlugin : IAnimPlugin {//(val player: AnimPlayer)
         return try {
             srcMap?.map?.values?.forEach { src ->
                 if (src.srcType == Src.SrcType.TXT) {
-                    src.bitmap = BitmapUtil.createTxtBitmap(src)
+                    try {
+                        src.bitmap = BitmapUtil.createTxtBitmap(src)
+                    } catch (e: Exception) {
+                        ALog.e(TAG, "createBitmap $e")
+                    }
                 }
             }
             true
