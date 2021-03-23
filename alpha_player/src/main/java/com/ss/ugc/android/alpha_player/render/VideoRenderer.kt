@@ -6,6 +6,7 @@ import android.opengl.Matrix
 import android.os.Build
 import android.util.Log
 import android.view.Surface
+import com.ss.ugc.android.alpha_player.BuildConfig
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.vap.*
 import com.ss.ugc.android.alpha_player.vap.plugin.AnimPluginManager
@@ -71,6 +72,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
             //animConfig = testConfig()
             initByConfig(animConfig)
         }
+        mCountDraw = 0
     }
 
     private fun testConfig(): AnimConfig {
@@ -168,11 +170,13 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
             GLES20.glFinish()
             return
         }
-
+        if (BuildConfig.DEBUG && mCountDraw >= 208) return
         draw()
 
         //插件渲染：文字，遮罩图片
         mPluginManager.onRendering()
+
+        mCountDraw++
     }
 
 
@@ -253,10 +257,13 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
         mPluginManager.onDestroy()
     }
 
+    private var mCountDraw = 0
+
     private fun clearFrame() {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
         eglUtil.swapBuffers()
+        mCountDraw = 0
     }
 
     private fun prepareSurface() {

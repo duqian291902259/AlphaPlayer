@@ -17,11 +17,12 @@ package com.ss.ugc.android.alpha_player.vap.util
 
 import android.graphics.*
 import android.text.TextPaint
+import com.ss.ugc.android.alpha_player.BuildConfig
 import com.ss.ugc.android.alpha_player.vap.mix.Src
 
 object BitmapUtil {
 
-    fun createEmptyBitmap() : Bitmap {
+    fun createEmptyBitmap(): Bitmap {
         return Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888).apply {
             eraseColor(Color.TRANSPARENT)
         }
@@ -58,9 +59,21 @@ object BitmapUtil {
         val fontMetrics = paint.fontMetricsInt
         val top = fontMetrics.top
         val bottom = fontMetrics.bottom
-        val baseline = rect.centerY() - top/2 - bottom/2
+        val baseline = rect.centerY() - top / 2 - bottom / 2
 
+        if (BuildConfig.DEBUG) {
+            //text outline
+            val mTextBackground = Paint()
+            mTextBackground.color = Color.WHITE
+            mTextBackground.style = Paint.Style.FILL
+
+            //val rectangle = Rect()
+            //val rect = Rect(0, 0, w, h)
+            //paint.getTextBounds(text, 0, text.length, rectangle)
+            canvas.drawRect(rect, mTextBackground);
+        }
         canvas.drawText(text, rect.centerX().toFloat(), baseline.toFloat(), paint)
+
 
         return bitmap
     }
