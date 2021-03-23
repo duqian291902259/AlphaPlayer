@@ -170,7 +170,7 @@ class VideoRenderer(val alphaVideoView: IAlphaVideoView) : IRender {
             GLES20.glFinish()
             return
         }
-        if (BuildConfig.DEBUG && mCountDraw >= 208) return
+        if (BuildConfig.DEBUG && mCountDraw >= 209) return
         draw()
 
         //插件渲染：文字，遮罩图片
