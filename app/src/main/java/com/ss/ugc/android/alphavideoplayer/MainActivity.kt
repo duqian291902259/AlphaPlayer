@@ -9,14 +9,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.Toast
 import com.ss.ugc.android.alpha_player.IMonitor
 import com.ss.ugc.android.alpha_player.IPlayerAction
 import com.ss.ugc.android.alpha_player.model.ScaleType
-import com.ss.ugc.android.alpha_player.vap.Resource
+import com.ss.ugc.android.alpha_player.vap.mix.Resource
 import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
 import com.ss.ugc.android.alpha_player.vap.util.ALog
 import com.ss.ugc.android.alpha_player.vap.util.IALog

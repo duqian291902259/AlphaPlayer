@@ -1,16 +1,13 @@
 package com.ss.ugc.android.alpha_player.vap.mix
 
 import com.ss.ugc.android.alpha_player.vap.Constant
-import com.ss.ugc.android.alpha_player.vap.Resource
 import com.ss.ugc.android.alpha_player.vap.util.ALog
 import com.ss.ugc.android.alpha_player.vap.util.BitmapUtil
 import android.graphics.Bitmap
 import android.os.SystemClock
 import com.ss.ugc.android.alpha_player.vap.AnimConfig
-import com.ss.ugc.android.alpha_player.vap.TextureLoadUtil
 import com.ss.ugc.android.alpha_player.vap.inter.IFetchResource
 import com.ss.ugc.android.alpha_player.vap.plugin.IAnimPlugin
-import com.ss.ugc.android.alpha_player.vap.inter.OnResourceClickListener
 
 class MixAnimPlugin : IAnimPlugin {//(val player: AnimPlayer)
 

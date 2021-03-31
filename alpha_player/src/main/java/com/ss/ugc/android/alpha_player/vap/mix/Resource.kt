@@ -13,7 +13,7 @@
  * either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ss.ugc.android.alpha_player.vap
+package com.ss.ugc.android.alpha_player.vap.mix
 
 import android.graphics.Bitmap
 import com.ss.ugc.android.alpha_player.vap.mix.Src

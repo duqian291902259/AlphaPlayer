@@ -15,7 +15,7 @@
  */
 package com.ss.ugc.android.alpha_player.vap.inter
 
-import com.ss.ugc.android.alpha_player.vap.Resource
+import com.ss.ugc.android.alpha_player.vap.mix.Resource
 
 interface OnResourceClickListener {
 
