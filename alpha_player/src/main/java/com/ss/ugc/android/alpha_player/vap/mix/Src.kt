@@ -69,8 +69,12 @@ class Src {
         var colorStr = json.optString("color", "#000000")
         if (colorStr.isEmpty()) {
             colorStr = "#000000"
+        } else {
+            try {
+                color = Color.parseColor(colorStr)
+            } catch (e: Exception) {
+            }
         }
-        color = Color.parseColor(colorStr)
         srcTag = json.getString("srcTag")
         txt = srcTag
 

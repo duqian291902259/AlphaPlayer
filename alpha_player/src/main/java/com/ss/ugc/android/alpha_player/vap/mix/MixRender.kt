@@ -112,14 +112,15 @@ class MixRender(val mixAnimPlugin: MixAnimPlugin) {
 
         // 绑定mask所在的纹理，用的是视频帧的纹理id
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1)
-        //GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
         GLES20.glBindTexture(VideoRenderer.GL_TEXTURE_EXTERNAL_OES, mVideoTextureId)
         GLES20.glUniform1i(shader.uTextureMaskUnitLocation, 1)
 
         // 属性处理
-        if (src.srcType == Src.SrcType.TXT && src.color > 0) {// mixAnimPlugin.autoTxtColorFill) { // // 文字需要颜色填充
+        val isText = src.srcType == Src.SrcType.TXT
+        if (isText && src.color > 0) {//mixAnimPlugin.autoTxtColorFill
             GLES20.glUniform1i(shader.uIsFillLocation, 1)
             val argb = transColor(src.color)
+            //ALog.d("dq-av isText=${src.color}, argb[1]=${argb[1]}, argb[2]=${argb[2]}, argb[3]=${argb[3]}, argb[0]=${argb[0]}")
             GLES20.glUniform4f(shader.uColorLocation, argb[1], argb[2], argb[3], argb[0])
         } else {
             GLES20.glUniform1i(shader.uIsFillLocation, 0)

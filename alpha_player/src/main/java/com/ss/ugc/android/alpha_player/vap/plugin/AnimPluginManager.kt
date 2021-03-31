@@ -94,7 +94,7 @@ class AnimPluginManager {
         if (frameIndex > totalFrame) {
             return
         }
-        ALog.d(TAG, "onRendering frameIndex=$frameIndex")
+        //ALog.d(TAG, "onRendering frameIndex=$frameIndex")
         plugins.forEach {
             it.onRendering(frameIndex) // 第一帧 0
         }

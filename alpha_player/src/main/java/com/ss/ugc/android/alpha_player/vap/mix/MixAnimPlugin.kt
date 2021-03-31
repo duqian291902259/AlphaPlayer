@@ -83,7 +83,7 @@ class MixAnimPlugin : IAnimPlugin {//(val player: AnimPlayer)
         //val config = player.configManager.config ?: return
         //if (!config.isMix) return
         curFrameIndex = frameIndex
-        ALog.i(TAG, "mix render frameIndex=$frameIndex")
+        //ALog.i(TAG, "mix render frameIndex=$frameIndex")
 
         val list = frameAll?.map?.get(frameIndex)?.list ?: return
 

@@ -62,14 +62,9 @@ object BitmapUtil {
         val baseline = rect.centerY() - top / 2 - bottom / 2
 
         if (BuildConfig.DEBUG) {
-            //text outline
             val mTextBackground = Paint()
             mTextBackground.color = Color.WHITE
             mTextBackground.style = Paint.Style.FILL
-
-            //val rectangle = Rect()
-            //val rect = Rect(0, 0, w, h)
-            //paint.getTextBounds(text, 0, text.length, rectangle)
             canvas.drawRect(rect, mTextBackground);
         }
         canvas.drawText(text, rect.centerX().toFloat(), baseline.toFloat(), paint)
